@@ -110,6 +110,98 @@ resource "aws_cloudfront_distribution" "distribution" {
   }
 }
 
+resource "aws_iam_role" "codebuild_assume_role" {
+  name = "${var.site-name}-codebuild-role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "codebuild.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "codebuild_policy" {
+  name = "${var.site-name}-codebuild-policy"
+  role = "${aws_iam_role.codebuild_assume_role.id}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+       "s3:PutObject",
+       "s3:GetObject",
+       "s3:GetObjectVersion",
+       "s3:GetBucketVersioning"
+      ],
+      "Resource": "${aws_s3_bucket.bucket.arn}",
+      "Effect": "Allow"
+    },
+    {
+      "Effect": "Allow",
+      "Resource": [
+        "${aws_codebuild_project.build_project.id}"
+      ],
+      "Action": [
+        "codebuild:*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Resource": [
+        "*"
+      ],
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ]
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_codebuild_project" "build_project" {
+  name          = "${var.site-name}-build"
+  description   = "The CodeBuild project for ${var.site-name}"
+  service_role  = "${aws_iam_role.codebuild_assume_role.arn}"
+  build_timeout = "60"
+
+  artifacts {
+    type = "NO_ARTIFACTS"
+  }
+
+  environment {
+    compute_type = "BUILD_GENERAL1_SMALL"
+    image        = "aws/codebuild/nodejs:6.3.1"
+    type         = "LINUX_CONTAINER"
+  }
+
+  source {
+    type      = "GITHUB"
+    location = "https://github.com/jamesgawn/gawn-sam.git"
+    buildspec = "buildspec.yml"
+    auth {
+      type = "OAUTH"
+    }
+  }
+}
+
+resource "aws_codebuild_webhook" "build_webhook" {
+  name = "${aws_codebuild_project.build_project.name}"
+}
+
 output "domain_name" {
   value = "${aws_cloudfront_distribution.distribution.domain_name}"
 }
