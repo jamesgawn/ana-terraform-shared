@@ -177,7 +177,7 @@ resource "aws_codebuild_project" "build_project" {
   name          = "${var.site-name}-build"
   description   = "The CodeBuild project for ${var.site-name}"
   service_role  = "${aws_iam_role.codebuild_assume_role.arn}"
-  build_timeout = "60"
+  build_timeout = "5"
   badge_enabled = true
 
   artifacts {
