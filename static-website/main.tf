@@ -1,22 +1,8 @@
 variable "site-name" {
   type = "string"
-  default = "website-gawn-subdomain"
 }
 
 variable "cert-domain" {
-  type = "string"
-}
-
-variable "github_username" {
-  type    = "string"
-  default = "jamesgawn"
-}
-
-variable "github_token" {
-  type = "string"
-}
-
-variable "github_repo" {
   type = "string"
 }
 
