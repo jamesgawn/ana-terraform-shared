@@ -178,6 +178,7 @@ resource "aws_codebuild_project" "build_project" {
   description   = "The CodeBuild project for ${var.site-name}"
   service_role  = "${aws_iam_role.codebuild_assume_role.arn}"
   build_timeout = "60"
+  badge_enabled = true
 
   artifacts {
     type = "NO_ARTIFACTS"
@@ -196,6 +197,7 @@ resource "aws_codebuild_project" "build_project" {
     auth {
       type = "OAUTH"
     }
+    report_build_status = true
   }
 }
 
