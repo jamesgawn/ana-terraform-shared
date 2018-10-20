@@ -199,7 +199,7 @@ resource "aws_codebuild_project" "build_project" {
 }
 
 resource "aws_codebuild_webhook" "build_webhook" {
-  name = "${aws_codebuild_project.build_project.name}"
+  project_name = "${aws_codebuild_project.build_project.name}"
 }
 
 output "domain_name" {
