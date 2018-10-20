@@ -97,10 +97,6 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
   price_class = "PriceClass_100"
 
-  tags {
-    Environment = "production"
-  }
-
   restrictions {
     "geo_restriction" {
       restriction_type = "none"
@@ -109,5 +105,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
   viewer_certificate {
     acm_certificate_arn = "${data.aws_acm_certificate.cert.arn}"
+    ssl_support_method = "sni-only"
+    minimum_protocol_version = "TLSv1.1_2016"`
   }
 }
