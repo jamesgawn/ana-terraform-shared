@@ -145,7 +145,7 @@ resource "aws_iam_role_policy" "codebuild_policy" {
        "s3:GetBucketVersioning",
        "s3:ListObjects"
       ],
-      "Resource": "${aws_s3_bucket.bucket.arn}",
+      "Resource": ["${aws_s3_bucket.bucket.arn}","${aws_s3_bucket.bucket.arn}/*"],
       "Effect": "Allow"
     },
     {
