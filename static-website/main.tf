@@ -58,7 +58,7 @@ resource "aws_s3_bucket_policy" "access_policy" {
   policy = "${data.aws_iam_policy_document.s3_policy.json}"
 }
 
-resource "aws_cloudfront_distribution" "s3_distribution" {
+resource "aws_cloudfront_distribution" "distribution" {
   origin {
     domain_name = "${aws_s3_bucket.bucket.bucket_domain_name}"
     origin_id   = "${var.site-name}"
@@ -108,4 +108,12 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     ssl_support_method = "sni-only"
     minimum_protocol_version = "TLSv1.1_2016"
   }
+}
+
+output "domain_name" {
+  value = "${aws_cloudfront_distribution.distribution.domain_name}"
+}
+
+output "hosted_zone_id" {
+  value = "${aws_cloudfront_distribution.distribution.hosted_zone_id}"
 }
