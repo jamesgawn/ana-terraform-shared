@@ -15,6 +15,10 @@ variable "root" {
   description = "The default file to return when accessing the root of the domain."
 }
 
+variable "github-repo" {
+  type = "string"
+}
+
 // The AWS Cert Manager for globally managed domain names
 data "aws_acm_certificate" "cert" {
   provider = "aws.us-east-1"
@@ -194,7 +198,7 @@ resource "aws_codebuild_project" "build_project" {
 
   source {
     type      = "GITHUB"
-    location = "https://github.com/jamesgawn/gawn-sam.git"
+    location = "${var.github-repo}"
     buildspec = "buildspec.yml"
     auth {
       type = "OAUTH"
