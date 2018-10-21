@@ -15,6 +15,10 @@ variable "root" {
   description = "The default file to return when accessing the root of the domain."
 }
 
+variable "s3_force_destroy" {
+  value = true
+}
+
 // The AWS Cert Manager for globally managed domain names
 data "aws_acm_certificate" "cert" {
   provider = "aws.us-east-1"
@@ -25,6 +29,8 @@ data "aws_acm_certificate" "cert" {
 
 resource "aws_s3_bucket" "bucket" {
   bucket = "${var.site-name}"
+
+  force_destroy = "${var.s3_force_destroy}"
 }
 
 resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
