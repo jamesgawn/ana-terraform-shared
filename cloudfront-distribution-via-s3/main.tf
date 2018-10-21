@@ -16,7 +16,7 @@ variable "root" {
 }
 
 variable "s3_force_destroy" {
-  value = true
+  default = true
 }
 
 // The AWS Cert Manager for globally managed domain names
