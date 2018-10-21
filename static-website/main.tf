@@ -143,7 +143,9 @@ resource "aws_iam_role_policy" "codebuild_policy" {
        "s3:GetObject",
        "s3:GetObjectVersion",
        "s3:GetBucketVersioning",
-       "s3:ListBucket"
+       "s3:ListBucket",
+       "s3:DeleteObject",
+       "s3:DeleteObjectVersion"
       ],
       "Resource": ["${aws_s3_bucket.bucket.arn}","${aws_s3_bucket.bucket.arn}/*"],
       "Effect": "Allow"
