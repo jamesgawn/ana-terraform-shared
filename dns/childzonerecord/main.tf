@@ -18,6 +18,10 @@ resource "aws_route53_record" "ns" {
   records = aws_route53_zone.child-zone.name_servers
 }
 
+output "name" {
+  value = aws_route53_zone.child-zone.name
+}
+
 output "zone_id" {
   value = aws_route53_zone.child-zone.zone_id
 }
