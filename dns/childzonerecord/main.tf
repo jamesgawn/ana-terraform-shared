@@ -10,7 +10,7 @@ resource "aws_route53_zone" "child-zone" {
   name = var.name
 }
 
-resource "aws_route53_record" "www" {
+resource "aws_route53_record" "ns" {
   zone_id = var.zone_id
   name    = var.name
   type    = "NS"
