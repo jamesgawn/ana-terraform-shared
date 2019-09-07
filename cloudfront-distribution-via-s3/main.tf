@@ -1,3 +1,7 @@
+provider "aws" {
+  alias = "us-east-1"
+}
+
 variable "site-name" {
   type = "string"
 }
@@ -21,7 +25,7 @@ variable "s3_force_destroy" {
 
 // The AWS Cert Manager for globally managed domain names
 data "aws_acm_certificate" "cert" {
-  provider = "aws.us-east-1"
+  provider = aws.us-east-1
 
   domain   = "${var.cert-domain}"
   statuses = ["ISSUED"]
