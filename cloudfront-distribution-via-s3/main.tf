@@ -104,7 +104,7 @@ resource "aws_cloudfront_distribution" "distribution" {
   price_class = "PriceClass_100"
 
   restrictions {
-    "geo_restriction" {
+    geo_restriction {
       restriction_type = "none"
     }
   }
