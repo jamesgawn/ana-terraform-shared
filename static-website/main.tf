@@ -22,10 +22,10 @@ variable "github-repo" {
 module "cd" {
   source = "../cloudfront-distribution-via-s3"
 
-  site-name = "${var.site-name}"
-  cert-domain = "${var.cert-domain}"
-  site-domains = "${var.site-domains}"
-  root = "${var.root}"
+  site-name = var.site-name
+  cert-domain = var.cert-domain
+  site-domains = var.site-domains
+  root = var.root
 }
 
 resource "aws_iam_role" "codebuild_assume_role" {
@@ -49,7 +49,7 @@ EOF
 
 resource "aws_iam_role_policy" "codebuild_policy" {
   name = "${var.site-name}-codebuild-policy"
-  role = "${aws_iam_role.codebuild_assume_role.id}"
+  role = aws_iam_role.codebuild_assume_role.id
 
   policy = <<POLICY
 {
@@ -96,7 +96,7 @@ POLICY
 resource "aws_codebuild_project" "build_project" {
   name          = "${var.site-name}-build"
   description   = "The CodeBuild project for ${var.site-name}"
-  service_role  = "${aws_iam_role.codebuild_assume_role.arn}"
+  service_role  = aws_iam_role.codebuild_assume_role.arn
   build_timeout = "5"
   badge_enabled = true
 
@@ -112,7 +112,7 @@ resource "aws_codebuild_project" "build_project" {
 
   source {
     type      = "GITHUB"
-    location = "${var.github-repo}"
+    location = var.github-repo
     buildspec = "buildspec.yml"
     auth {
       type = "OAUTH"
@@ -122,13 +122,13 @@ resource "aws_codebuild_project" "build_project" {
 }
 
 resource "aws_codebuild_webhook" "build_webhook" {
-  project_name = "${aws_codebuild_project.build_project.name}"
+  project_name = aws_codebuild_project.build_project.name
 }
 
 output "domain_name" {
-  value = "${module.cd.domain_name}"
+  value = module.cd.domain_name
 }
 
 output "hosted_zone_id" {
-  value = "${module.cd.hosted_zone_id}"
+  value = module.cd.hosted_zone_id
 }
