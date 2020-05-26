@@ -1,9 +1,9 @@
 variable "name" {
-  type = "string"
+  type = string
 }
 
 variable "zone_id" {
-  type = "string"
+  type = string
 }
 
 resource "aws_route53_zone" "child-zone" {

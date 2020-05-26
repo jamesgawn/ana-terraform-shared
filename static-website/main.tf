@@ -1,22 +1,22 @@
 variable "site-name" {
-  type = "string"
+  type = string
 }
 
 variable "cert-domain" {
-  type = "string"
+  type = string
 }
 
 variable "site-domains" {
-  type = "list"
+  type = list(string)
 }
 
 variable "root" {
-  type = "string"
+  type = string
   description = "The default file to return when accessing the root of the domain."
 }
 
 variable "github-repo" {
-  type = "string"
+  type = string
 }
 
 module "cd" {

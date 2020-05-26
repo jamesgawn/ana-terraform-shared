@@ -1,17 +1,17 @@
 variable "name" {
-  type = "string"
+  type = string
 }
 
 variable "zone_id" {
-  type = "string"
+  type = string
 }
 
 variable "a-records" {
-  type = "list"
+  type = list(string)
 }
 
 variable "aaaa-records" {
-  type = "list"
+  type = list(string)
 }
 
 resource "aws_route53_record" "a" {

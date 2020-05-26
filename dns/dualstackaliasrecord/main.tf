@@ -1,17 +1,17 @@
 variable "name" {
-  type = "string"
+  type = string
 }
 
 variable "zone_id" {
-  type = "string"
+  type = string
 }
 
 variable "alias-target" {
-  type = "string"
+  type = string
 }
 
 variable "alias-hosted-zone-id" {
-  type = "string"
+  type = string
 }
 
 resource "aws_route53_record" "a" {
